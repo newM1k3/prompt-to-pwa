@@ -1,0 +1,175 @@
+{
+  "_description": "Analytics fields to ADD to the existing generated_apps collection in pb_schema.json. These fields enable the admin dashboard, cost tracking, and ecosystem data strategy.",
+  "_version": "1.0.0",
+  "_date": "2026-08-12",
+  "collection": "generated_apps",
+  "add_fields": [
+    {
+      "name": "blueprint_confidence",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0,
+        "max": 1
+      },
+      "description": "Gemini Flash confidence score (0.0-1.0). 0.0 = fallback blueprint used. NULL = pre-optimization generation (no confidence data)."
+    },
+    {
+      "name": "compile_attempts",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0,
+        "default": 0
+      },
+      "description": "How many Claude API calls were made before success (or max retries). 1 = first-attempt success. 3 = all retries exhausted."
+    },
+    {
+      "name": "compile_duration_ms",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0
+      },
+      "description": "Total wall-clock time for the compile phase in milliseconds. Measured from first Claude call to final status update (ready or needs_review)."
+    },
+    {
+      "name": "total_cost_estimate",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0
+      },
+      "description": "Estimated total API cost in USD for this generation. Sum of Gemini Flash cost + all Claude attempts. Calculated from token usage when available, otherwise estimated from blueprint complexity."
+    },
+    {
+      "name": "prompt_category",
+      "type": "select",
+      "required": false,
+      "options": {
+        "values": ["inventory", "staff", "customers", "scheduling", "other"]
+      },
+      "description": "Category from Wizard Step 1 (purpose). Maps to: inventory_stock→inventory, staff_crew→staff, customers_sales→customers, scheduling_jobs→scheduling, something_else→other."
+    },
+    {
+      "name": "user_edited_blueprint",
+      "type": "boolean",
+      "required": false,
+      "options": {
+        "default": false
+      },
+      "description": "TRUE if the user unchecked any sections on the BlueprintReview screen. Indicates human-in-the-loop intervention beyond the AI blueprint."
+    },
+    {
+      "name": "edited_sections",
+      "type": "json",
+      "required": false,
+      "description": "Array of section IDs the user unchecked on BlueprintReview. E.g., [\"data_field_customer_email\", \"view_reports\"]. NULL = no sections were unchecked."
+    },
+    {
+      "name": "gemini_input_tokens",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0
+      },
+      "description": "Actual input token count for the Gemini Flash call (from API response usage metadata)."
+    },
+    {
+      "name": "gemini_output_tokens",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0
+      },
+      "description": "Actual output token count for the Gemini Flash call."
+    },
+    {
+      "name": "claude_input_tokens",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0
+      },
+      "description": "Total input tokens across ALL Claude attempts (sum of usage.input_tokens for each attempt)."
+    },
+    {
+      "name": "claude_output_tokens",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0
+      },
+      "description": "Total output tokens across ALL Claude attempts (sum of usage.output_tokens for each attempt)."
+    },
+    {
+      "name": "prompt_version",
+      "type": "text",
+      "required": false,
+      "options": {
+        "min": 0,
+        "max": 50
+      },
+      "description": "Version string of the prompt templates used (e.g., 'blueprint:2.0.0, compile:2.0.0'). For A/B testing and regression tracking."
+    },
+    {
+      "name": "compile_model",
+      "type": "select",
+      "required": false,
+      "options": {
+        "values": ["claude-3-5-sonnet", "gpt-4o"]
+      },
+      "description": "Which model performed the successful compilation. For A/B testing Claude vs GPT-4o."
+    },
+    {
+      "name": "fallback_used",
+      "type": "boolean",
+      "required": false,
+      "options": {
+        "default": false
+      },
+      "description": "TRUE if the fallback blueprint was used (Gemini returned unparseable JSON). Indicates generation quality issue."
+    },
+    {
+      "name": "blueprint_cache_hit",
+      "type": "boolean",
+      "required": false,
+      "options": {
+        "default": false
+      },
+      "description": "TRUE if this blueprint was served from cache rather than a fresh Gemini call."
+    },
+    {
+      "name": "view_count",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0,
+        "default": 0
+      },
+      "description": "Number of times the user viewed/loaded this app in the Preview Sandbox. Engagement metric."
+    },
+    {
+      "name": "download_count",
+      "type": "number",
+      "required": false,
+      "options": {
+        "min": 0,
+        "default": 0
+      },
+      "description": "Number of times the user downloaded the ZIP. Pro engagement metric."
+    }
+  ],
+  "_implementation_notes": {
+    "blueprint_confidence": "Capture from Gemini response. Set to 0.0 if fallback blueprint was used. Set to null for apps generated before this field was added.",
+    "compile_attempts": "Set after compile-app.mjs finishes (success or max retries). Increment with each Claude API call.",
+    "compile_duration_ms": "Record Date.now() before first Claude call, subtract from Date.now() after final status update.",
+    "total_cost_estimate": "Calculate: (gemini_input * 0.0000001 + gemini_output * 0.0000004 + claude_input * 0.000003 + claude_output * 0.000015). If token counts unavailable, estimate from blueprint complexity.",
+    "prompt_category": "Derive from wizardData.purpose using PURPOSE_CATEGORY_MAP. Store as lowercase string matching the select values.",
+    "user_edited_blueprint": "Check confirmedSections array from compile-app request against the full blueprint sections list.",
+    "prompt_version": "Set from PROMPT_VERSION constant. Update when prompts change.",
+    "compile_model": "Record which model succeeded. If multiple attempts used different models, record the successful one.",
+    "fallback_used": "Set to true only when generateFallbackBlueprint() was invoked.",
+    "blueprint_cache_hit": "Set to true when blueprint was served from blueprint_cache collection."
+  }
+}

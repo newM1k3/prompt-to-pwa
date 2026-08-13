@@ -1,0 +1,99 @@
+{
+  "collections": [
+    {
+      "name": "users",
+      "type": "auth",
+      "system": true,
+      "schema": [
+        {
+          "name": "stripe_customer_id",
+          "type": "text",
+          "required": false,
+          "options": { "min": 0, "max": 255 }
+        },
+        {
+          "name": "plan_tier",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["free", "pro"],
+            "default": "free"
+          }
+        },
+        {
+          "name": "credits_remaining",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 5 }
+        },
+        {
+          "name": "apps_generated_total",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        }
+      ]
+    },
+    {
+      "name": "generated_apps",
+      "type": "base",
+      "schema": [
+        {
+          "name": "user",
+          "type": "relation",
+          "required": true,
+          "options": {
+            "collectionId": "users",
+            "cascadeDelete": false,
+            "maxSelect": 1
+          }
+        },
+        {
+          "name": "original_prompt",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "blueprint_json",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "app_name",
+          "type": "text",
+          "required": false,
+          "options": { "min": 0, "max": 255 }
+        },
+        {
+          "name": "status",
+          "type": "select",
+          "required": true,
+          "options": {
+            "values": ["blueprinting", "coding", "ready", "downloaded", "needs_review"],
+            "default": "blueprinting"
+          }
+        },
+        {
+          "name": "preview_html",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "options": {
+            "onCreate": true,
+            "onUpdate": false
+          }
+        },
+        {
+          "name": "credits_used",
+          "type": "number",
+          "required": true,
+          "options": { "min": 0, "default": 0 }
+        }
+      ]
+    }
+  ]
+}

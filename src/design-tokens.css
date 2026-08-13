@@ -1,0 +1,208 @@
+/* ============================================================
+   Prompt-to-PWA Toolkit — Design Tokens
+   CSS Custom Properties for framework-agnostic usage.
+   These tokens are consumed by both Tailwind config and
+   component-level CSS. All values are concrete and implementable.
+
+   Target user: Frank (55+, non-technical, roofing supply owner)
+   Design priorities: legibility, touch-friendly, reassuring, clear.
+   ============================================================ */
+
+:root {
+  /* ── Color Palette ──────────────────────────────────── */
+
+  /* Primary: Blue #2563EB */
+  --color-primary-50:  #EFF6FF;
+  --color-primary-100: #DBEAFE;
+  --color-primary-200: #BFDBFE;
+  --color-primary-300: #93C5FD;
+  --color-primary-400: #60A5FA;
+  --color-primary-500: #3B82F6;
+  --color-primary-600: #2563EB;  /* ← brand default */
+  --color-primary-700: #1D4ED8;
+  --color-primary-800: #1E40AF;
+  --color-primary-900: #1E3A8A;
+  --color-primary-950: #172554;
+
+  /* Success: Green */
+  --color-success-50:  #F0FDF4;
+  --color-success-100: #DCFCE7;
+  --color-success-200: #BBF7D0;
+  --color-success-300: #86EFAC;
+  --color-success-400: #4ADE80;
+  --color-success-500: #22C55E;
+  --color-success-600: #16A34A;  /* ← success default */
+  --color-success-700: #15803D;
+  --color-success-800: #166534;
+  --color-success-900: #14532D;
+
+  /* Warning: Amber */
+  --color-warning-50:  #FFFBEB;
+  --color-warning-100: #FEF3C7;
+  --color-warning-200: #FDE68A;
+  --color-warning-300: #FCD34D;
+  --color-warning-400: #FBBF24;
+  --color-warning-500: #F59E0B;
+  --color-warning-600: #D97706;  /* ← warning default */
+  --color-warning-700: #B45309;
+  --color-warning-800: #92400E;
+  --color-warning-900: #78350F;
+
+  /* Error: Red */
+  --color-error-50:  #FEF2F2;
+  --color-error-100: #FEE2E2;
+  --color-error-200: #FECACA;
+  --color-error-300: #FCA5A5;
+  --color-error-400: #F87171;
+  --color-error-500: #EF4444;
+  --color-error-600: #DC2626;  /* ← error default */
+  --color-error-700: #B91C1C;
+  --color-error-800: #991B1B;
+  --color-error-900: #7F1D1D;
+
+  /* Neutral: Warm Gray */
+  --color-neutral-50:  #FAFAF9;
+  --color-neutral-100: #F5F5F4;
+  --color-neutral-200: #E7E5E4;
+  --color-neutral-300: #D6D3D1;
+  --color-neutral-400: #A8A29E;
+  --color-neutral-500: #78716C;
+  --color-neutral-600: #57534E;
+  --color-neutral-700: #44403C;
+  --color-neutral-800: #292524;
+  --color-neutral-900: #1C1917;
+  --color-neutral-950: #0C0A09;
+
+  /* Surface Colors */
+  --color-surface-page:       #FAFAF9;   /* neutral-50  */
+  --color-surface-card:       #FFFFFF;
+  --color-surface-card-hover: #FAFAF9;
+  --color-surface-selected:   #EFF6FF;   /* primary-50  */
+  --color-surface-disabled:   #F5F5F4;   /* neutral-100 */
+  --color-surface-overlay:    rgba(28, 25, 23, 0.5); /* neutral-900 / 50% */
+
+  /* Border Colors */
+  --color-border-default:  #E7E5E4;   /* neutral-200 */
+  --color-border-hover:    #A8A29E;   /* neutral-400 */
+  --color-border-focus:    #2563EB;   /* primary-600 */
+  --color-border-selected: #2563EB;   /* primary-600 */
+
+  /* Text Colors */
+  --color-text-primary:   #1C1917;   /* neutral-900 */
+  --color-text-secondary: #57534E;   /* neutral-600 */
+  --color-text-tertiary:  #A8A29E;   /* neutral-400 */
+  --color-text-inverse:   #FFFFFF;
+  --color-text-link:      #2563EB;   /* primary-600 */
+  --color-text-link-hover:#1D4ED8;   /* primary-700 */
+  --color-text-disabled:  #A8A29E;   /* neutral-400 */
+
+  /* ── Typography Scale ───────────────────────────────── */
+
+  /* Font families */
+  --font-family-sans:  'Figtree', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-family-mono:  'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Font sizes (px → rem; 1rem = 16px) */
+  --font-size-caption: 0.875rem;    /* 14px — captions only */
+  --font-size-body-sm: 1rem;        /* 16px */
+  --font-size-body:    1.125rem;    /* 18px — minimum for primary content */
+  --font-size-body-lg: 1.25rem;     /* 20px */
+  --font-size-input:   1.25rem;     /* 20px — large enough for Frank */
+  --font-size-h5:      1.25rem;     /* 20px */
+  --font-size-h4:      1.375rem;    /* 22px — minimum heading */
+  --font-size-h3:      1.5rem;      /* 24px */
+  --font-size-h2:      1.75rem;     /* 28px */
+  --font-size-h1:      2rem;        /* 32px */
+  --font-size-hero:    3rem;        /* 48px — hero headings */
+
+  /* Line heights */
+  --line-height-tight:  1.15;
+  --line-height-normal: 1.5;
+  --line-height-relaxed:1.75;
+
+  /* Font weights */
+  --font-weight-normal:  400;
+  --font-weight-medium:  500;
+  --font-weight-semibold:600;
+  --font-weight-bold:    700;
+
+  /* Letter spacing */
+  --letter-spacing-tight:  -0.02em;
+  --letter-spacing-normal:  0;
+  --letter-spacing-wide:    0.02em;
+
+  /* ── Spacing Scale (4px grid) ───────────────────────── */
+
+  --space-0:  0;
+  --space-1:  0.25rem;   /* 4px  */
+  --space-2:  0.5rem;    /* 8px  */
+  --space-3:  0.75rem;   /* 12px */
+  --space-4:  1rem;      /* 16px */
+  --space-5:  1.25rem;   /* 20px */
+  --space-6:  1.5rem;    /* 24px */
+  --space-8:  2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+
+  /* ── Border Radius ──────────────────────────────────── */
+
+  --radius-none:   0;
+  --radius-sm:     0.25rem;   /* 4px  — small elements */
+  --radius-md:     0.5rem;    /* 8px  — buttons, inputs */
+  --radius-lg:     0.75rem;   /* 12px — cards */
+  --radius-xl:     1rem;      /* 16px — wizard cards, modals */
+  --radius-2xl:    1.5rem;    /* 24px — large cards, textarea */
+  --radius-full:   9999px;    /* pill shapes */
+
+  /* ── Shadows (elevation system) ─────────────────────── */
+
+  /* Level 0: no shadow (flat) */
+  --shadow-none: none;
+
+  /* Level 1: subtle card / surface lift */
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.06),
+               0 1px 3px rgba(28, 25, 23, 0.08);
+
+  /* Level 2: elevated card / dropdown */
+  --shadow-md: 0 4px 6px rgba(28, 25, 23, 0.06),
+               0 2px 4px rgba(28, 25, 23, 0.08);
+
+  /* Level 3: modal / tooltip / drag state */
+  --shadow-lg: 0 10px 15px rgba(28, 25, 23, 0.08),
+               0 4px 6px rgba(28, 25, 23, 0.06);
+
+  /* ── Animation ──────────────────────────────────────── */
+
+  --transition-fast:    120ms ease;
+  --transition-base:    200ms ease;
+  --transition-slow:    300ms ease;
+  --transition-compose: 400ms ease;  /* compilation/loading state */
+
+  /* ── Layout ─────────────────────────────────────────── */
+
+  --container-max-width:   640px;   /* max content width */
+  --container-narrow:      480px;
+  --phone-frame-width:     390px;   /* preview iframe */
+  --touch-target-min:      48px;    /* WCAG touch target minimum */
+  --button-padding-x:      1.25rem; /* 20px — primary CTA padding */
+  --button-padding-y:      0.75rem; /* 12px */
+
+  /* ── Focus ──────────────────────────────────────────── */
+
+  --focus-ring-color:  #2563EB;
+  --focus-ring-width:  3px;
+  --focus-ring-offset: 2px;
+}
+
+/* ── prefers-reduced-motion ───────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast:    0ms;
+    --transition-base:    0ms;
+    --transition-slow:    0ms;
+    --transition-compose: 0ms;
+  }
+}

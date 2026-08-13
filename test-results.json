@@ -1,0 +1,283 @@
+{
+  "timestamp": "2026-08-12T15:49:12.570Z",
+  "mode": "dry-run",
+  "promptVersion": "2.1.0",
+  "summary": {
+    "totalTests": 5,
+    "passed": 5,
+    "failed": 0,
+    "averageScore": 1
+  },
+  "tests": [
+    {
+      "testId": "test-001-driver-checkin",
+      "passed": true,
+      "score": 10,
+      "maxScore": 10,
+      "category": "scheduling",
+      "primaryView": "list",
+      "appName": "DriverTracker Pro",
+      "checks": [
+        {
+          "check": "Has required key: app_name",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actors",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actions",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: data_fields",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: primary_view",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "app_name is valid",
+          "passed": true,
+          "detail": "DriverTracker Pro"
+        },
+        {
+          "check": "actors array (min 2) of strings",
+          "passed": true,
+          "detail": "2 actors, all strings: true"
+        },
+        {
+          "check": "actions array (min 3) of strings",
+          "passed": true,
+          "detail": "3 actions, all strings: true"
+        },
+        {
+          "check": "data_fields (min 4) of strings",
+          "passed": true,
+          "detail": "5 fields, all strings: true"
+        },
+        {
+          "check": "primary_view is one of: list, map, calendar, form, dashboard",
+          "passed": true,
+          "detail": "list"
+        },
+        {
+          "check": "primary_view expectation (none required)",
+          "passed": true,
+          "detail": "skipped"
+        }
+      ]
+    },
+    {
+      "testId": "test-002-customer-orders",
+      "passed": true,
+      "score": 10,
+      "maxScore": 10,
+      "category": "customers",
+      "primaryView": "list",
+      "appName": "OrderTrack Pro",
+      "checks": [
+        {
+          "check": "Has required key: app_name",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actors",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actions",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: data_fields",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: primary_view",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "app_name is valid",
+          "passed": true,
+          "detail": "OrderTrack Pro"
+        },
+        {
+          "check": "actors array (min 2) of strings",
+          "passed": true,
+          "detail": "2 actors, all strings: true"
+        },
+        {
+          "check": "actions array (min 3) of strings",
+          "passed": true,
+          "detail": "4 actions, all strings: true"
+        },
+        {
+          "check": "data_fields (min 5) of strings",
+          "passed": true,
+          "detail": "5 fields, all strings: true"
+        },
+        {
+          "check": "primary_view is one of: list, map, calendar, form, dashboard",
+          "passed": true,
+          "detail": "list"
+        },
+        {
+          "check": "primary_view expectation (none required)",
+          "passed": true,
+          "detail": "skipped"
+        }
+      ]
+    },
+    {
+      "testId": "test-003-employee-scheduling",
+      "passed": true,
+      "score": 11,
+      "maxScore": 11,
+      "category": "staff",
+      "primaryView": "calendar",
+      "appName": "CrewScheduler Pro",
+      "checks": [
+        {
+          "check": "Has required key: app_name",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actors",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actions",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: data_fields",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: primary_view",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "app_name is valid",
+          "passed": true,
+          "detail": "CrewScheduler Pro"
+        },
+        {
+          "check": "actors array (min 3) of strings",
+          "passed": true,
+          "detail": "3 actors, all strings: true"
+        },
+        {
+          "check": "actions array (min 3) of strings",
+          "passed": true,
+          "detail": "3 actions, all strings: true"
+        },
+        {
+          "check": "data_fields (min 5) of strings",
+          "passed": true,
+          "detail": "5 fields, all strings: true"
+        },
+        {
+          "check": "primary_view is one of: list, map, calendar, form, dashboard",
+          "passed": true,
+          "detail": "calendar"
+        },
+        {
+          "check": "primary_view matches expected \"calendar\"",
+          "passed": true,
+          "detail": "calendar"
+        }
+      ]
+    },
+    {
+      "testId": "test-004-inventory-alerts",
+      "passed": true,
+      "score": 10,
+      "maxScore": 10,
+      "category": "inventory",
+      "primaryView": "list",
+      "appName": "StockAlert Pro",
+      "checks": [
+        {
+          "check": "Has required key: app_name",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actors",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: actions",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: data_fields",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "Has required key: primary_view",
+          "passed": true,
+          "detail": "present"
+        },
+        {
+          "check": "app_name is valid",
+          "passed": true,
+          "detail": "StockAlert Pro"
+        },
+        {
+          "check": "actors array (min 2) of strings",
+          "passed": true,
+          "detail": "2 actors, all strings: true"
+        },
+        {
+          "check": "actions array (min 3) of strings",
+          "passed": true,
+          "detail": "3 actions, all strings: true"
+        },
+        {
+          "check": "data_fields (min 5) of strings",
+          "passed": true,
+          "detail": "5 fields, all strings: true"
+        },
+        {
+          "check": "primary_view is one of: list, map, calendar, form, dashboard",
+          "passed": true,
+          "detail": "list"
+        },
+        {
+          "check": "primary_view expectation (none required)",
+          "passed": true,
+          "detail": "skipped"
+        }
+      ]
+    },
+    {
+      "testId": "test-005-vague-prompt",
+      "passed": true,
+      "behavior": "NEEDS_WIZARD",
+      "detail": "Prompt correctly identified as too vague — Wizard should be shown instead of calling Gemini"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+# ============================================================================
+# Prompt-to-PWA — Netlify Configuration
+# Production-hardened. Last reviewed: 2026-08-12
+# ============================================================================
+
+[build]
+  command   = "npm run build"
+  publish   = "dist"
+  functions = "netlify/functions"
+
+# ---------------------------------------------------------------------------
+# Function timeouts (seconds)
+# ---------------------------------------------------------------------------
+[functions]
+  # compile-app needs 120s for AI API calls + up to 3 retries
+  "compile-app"    = { timeout = 120 }
+  # generate-blueprint needs 30s for Gemini API call + PocketBase writes
+  "generate-blueprint" = { timeout = 30 }
+  # download-app needs 60s — building ZIP with archiver can be slow for large apps
+  "download-app"   = { timeout = 60 }
+  # stripe-webhook is fast but allow 20s for PocketBase auth + writes
+  "stripe-webhook" = { timeout = 20 }
+
+# ---------------------------------------------------------------------------
+# Redirects — SPA fallback + function routing
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from   = "/api/*"
+  to     = "/.netlify/functions/:splat"
+  status = 200
+
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ---------------------------------------------------------------------------
+# Security headers — applied to ALL responses
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # ── Content Security Policy ──────────────────────────────────────────
+    # default-src 'self' is the strict baseline
+    # script-src: parent app uses bundled scripts; generated app iframe uses Tailwind CDN
+    # style-src:  bundled styles + `unsafe-inline` for Tailwind utility classes in iframe
+    # img-src:    local assets + data URIs (favicons, inline images) + blob (previews)
+    # connect-src: PocketBase API (direct client PB calls) *only*
+    #              AI APIs (Gemini, Anthropic) are called from Netlify Functions, NOT client
+    # frame-src:  unused (previews use srcdoc, not src)
+    # font-src:   bundled fonts + data URIs for inline fonts
+    Content-Security-Policy = """
+      default-src 'self';
+      script-src 'self' https://cdn.tailwindcss.com;
+      style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com;
+      img-src 'self' data: blob:;
+      connect-src 'self' https://*.pockethost.io wss://*.pockethost.io https://*.fly.dev;
+      frame-src 'self';
+      object-src 'none';
+      base-uri 'self';
+      form-action 'self';
+      font-src 'self' data:;
+    """
+
+    # ── Defense-in-depth headers ─────────────────────────────────────────
+    # Deny all framing — prevents clickjacking
+    X-Frame-Options = "DENY"
+
+    # Prevent MIME-type sniffing
+    X-Content-Type-Options = "nosniff"
+
+    # Don't leak referrer data across origins
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Lock down browser features we don't use
+    Permissions-Policy = """
+      camera=(),
+      microphone=(),
+      geolocation=(),
+      payment=(),
+      usb=(),
+      magnetometer=(),
+      gyroscope=(),
+      speaker=(),
+      vibrate=(),
+      fullscreen=(self),
+      clipboard-read=(self),
+      clipboard-write=(self)
+    """
+
+    # ── CORS for PocketBase API ──────────────────────────────────────────
+    # Allow the frontend to make credentialed requests to PocketBase
+    Access-Control-Allow-Origin  = "*"
+    Access-Control-Allow-Methods = "GET, POST, PATCH, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Max-Age       = "86400"
+
+    # ── HSTS (uncomment when deploying to a custom domain with HTTPS) ────
+    # Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+
+# ---------------------------------------------------------------------------
+# Cache-Control for static assets with content-hash filenames
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    # Vite generates content-hash filenames → immutable, cache aggressively
+    Cache-Control = "public, max-age=31536000, immutable"
+
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    # Service worker must always be revalidated so updates propagate
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    # HTML files must never be cached (SPA entry point)
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    # SVG icons cached for 7 days with revalidation
+    Cache-Control = "public, max-age=604800"
+
+# ---------------------------------------------------------------------------
+# Netlify Functions — CORS preflight headers
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin  = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Max-Age       = "86400"

@@ -69,15 +69,15 @@ function checkEnvVars() {
   };
 }
 
-export default async function handler(event) {
+export default async function handler(request) {
   const corsHeaders = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Allow-Methods": "GET, OPTIONS",
   };
 
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers: corsHeaders, body: "" };
+  if (request.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: corsHeaders });
   }
 
   const startTime = Date.now();
@@ -117,13 +117,12 @@ export default async function handler(event) {
 
   const statusCode = overallStatus === "unhealthy" ? 503 : 200;
 
-  return {
-    statusCode,
+  return new Response(JSON.stringify(result), {
+    status: statusCode,
     headers: {
       ...corsHeaders,
       "Content-Type": "application/json",
       "Cache-Control": "no-cache, no-store, must-revalidate",
     },
-    body: JSON.stringify(result),
-  };
+  });
 }
